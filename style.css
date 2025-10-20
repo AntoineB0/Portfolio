@@ -1,0 +1,146 @@
+/* Variables CSS pour le thème */
+:root {
+    --terminal-bg: #000000;
+    --terminal-fg: #ffffff;
+    --terminal-selection: #cccccc;
+    --terminal-link: #00aaff;
+    --terminal-error: #ff4444;
+    --terminal-warning: #ffaa00;
+}
+
+/* Reset et styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--terminal-bg);
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    height: 100vh;
+}
+
+#terminal-container {
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+#terminal {
+    height: 100vh;
+    --color: var(--terminal-fg);
+    --background: var(--terminal-bg);
+    --link-color: var(--terminal-link);
+}
+
+/* Personnalisation du terminal */
+.terminal {
+    --size: 1;
+    font-size: calc(14px * var(--size));
+    line-height: 1.4;
+}
+
+/* Animation de typing */
+.terminal .cmd .cursor {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Styles pour les commandes */
+.terminal .terminal-output div {
+    margin: 2px 0;
+}
+
+.terminal .terminal-output .error {
+    color: var(--terminal-error);
+}
+
+.terminal .terminal-output .warning {
+    color: var(--terminal-warning);
+}
+
+.terminal .terminal-output .success {
+    color: var(--terminal-fg);
+}
+
+/* Styles pour les liens */
+.terminal a {
+    color: var(--terminal-link);
+    text-decoration: underline;
+}
+
+.terminal a:hover {
+    color: var(--terminal-selection);
+}
+
+/* Styles pour les sections */
+.section-title {
+    color: var(--terminal-selection);
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.project-item {
+    margin-left: 20px;
+    margin-bottom: 8px;
+}
+
+.skill-category {
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+/* ASCII Art */
+.ascii-art {
+    color: var(--terminal-selection);
+    line-height: 1.2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .terminal {
+        --size: 0.9;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal {
+        --size: 0.8;
+    }
+    
+    .ascii-art {
+        font-size: 0.7em;
+    }
+}
+
+/* Scrollbar personnalisée */
+.terminal::-webkit-scrollbar {
+    width: 10px;
+}
+
+.terminal::-webkit-scrollbar-track {
+    background: var(--terminal-bg);
+}
+
+.terminal::-webkit-scrollbar-thumb {
+    background: var(--terminal-fg);
+    border-radius: 5px;
+}
+
+.terminal::-webkit-scrollbar-thumb:hover {
+    background: var(--terminal-selection);
+}
