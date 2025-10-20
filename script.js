@@ -1,4 +1,186 @@
 $(document).ready(function() {
+    // Animation de fond avec bruit de Perlin en pixel art
+    const canvas = document.getElementById('perlin-background');
+    const ctx = canvas.getContext('2d');
+    
+    // Taille des pixels pour l'effet pixel art
+    const pixelSize = 10;
+    let time = 0;
+    
+    // Fonction de bruit de Perlin simplifiée
+    function noise(x, y, z) {
+        // Simple interpolation pour simuler Perlin
+        const X = Math.floor(x) & 255;
+        const Y = Math.floor(y) & 255;
+        const Z = Math.floor(z) & 255;
+        
+        x -= Math.floor(x);
+        y -= Math.floor(y);
+        z -= Math.floor(z);
+        
+        const u = fade(x);
+        const v = fade(y);
+        const w = fade(z);
+        
+        const A = p[X] + Y;
+        const AA = p[A] + Z;
+        const AB = p[A + 1] + Z;
+        const B = p[X + 1] + Y;
+        const BA = p[B] + Z;
+        const BB = p[B + 1] + Z;
+        
+        return lerp(w, lerp(v, lerp(u, grad(p[AA], x, y, z),
+                                       grad(p[BA], x - 1, y, z)),
+                               lerp(u, grad(p[AB], x, y - 1, z),
+                                       grad(p[BB], x - 1, y - 1, z))),
+                       lerp(v, lerp(u, grad(p[AA + 1], x, y, z - 1),
+                                       grad(p[BA + 1], x - 1, y, z - 1)),
+                               lerp(u, grad(p[AB + 1], x, y - 1, z - 1),
+                                       grad(p[BB + 1], x - 1, y - 1, z - 1))));
+    }
+    
+    function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    function lerp(t, a, b) { return a + t * (b - a); }
+    function grad(hash, x, y, z) {
+        const h = hash & 15;
+        const u = h < 8 ? x : y;
+        const v = h < 4 ? y : h === 12 || h === 14 ? x : z;
+        return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+    }
+    
+    // Table de permutation pour Perlin
+    const p = new Array(512);
+    const permutation = [151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,102,143,54,65,25,63,161,1,216,80,73,209,76,132,187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,223,183,170,213,119,248,152,2,44,154,163,70,221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,185,112,104,218,246,97,228,251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];
+    
+    for (let i = 0; i < 256; i++) {
+        p[256 + i] = p[i] = permutation[i];
+    }
+    
+    // Fonction pour obtenir la couleur du thème
+    function getThemeColor() {
+        const borderColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--terminal-border').trim();
+        return borderColor || '#ffffff';
+    }
+    
+    // Convertit hex en RGB
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : { r: 255, g: 255, b: 255 };
+    }
+    
+    // Redimensionne le canvas
+    function resizeCanvas() {
+        canvas.width = Math.ceil(window.innerWidth / pixelSize);
+        canvas.height = Math.ceil(window.innerHeight / pixelSize);
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Animation
+    function animate() {
+        const color = hexToRgb(getThemeColor());
+        const imageData = ctx.createImageData(canvas.width, canvas.height);
+        
+        for (let x = 0; x < canvas.width; x++) {
+            for (let y = 0; y < canvas.height; y++) {
+                // Génère du bruit de Perlin
+                const value = noise(x * 0.05, y * 0.05, time * 0.5);
+                const brightness = (value + 1) * 0.5; // Normalise entre 0 et 1
+                
+                const index = (y * canvas.width + x) * 4;
+                imageData.data[index] = color.r * brightness;
+                imageData.data[index + 1] = color.g * brightness;
+                imageData.data[index + 2] = color.b * brightness;
+                imageData.data[index + 3] = 255;
+            }
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+        time += 0.01;
+        
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+
+    // Fonctionnalité de déplacement de la fenêtre (drag and drop)
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+
+    const container = document.getElementById('terminal-container');
+    const header = document.getElementById('terminal-header');
+
+    header.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    function dragStart(e) {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+
+        if (e.target === header || e.target.closest('#terminal-header')) {
+            isDragging = true;
+            container.style.cursor = 'grabbing';
+        }
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+
+            // Récupère les dimensions de la fenêtre et du viewport
+            const rect = container.getBoundingClientRect();
+            const containerWidth = rect.width;
+            const containerHeight = rect.height;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Calcule la position initiale centrée du conteneur (sans transform)
+            const bodyPadding = 10;
+            const initialLeft = (viewportWidth - containerWidth) / 2;
+            const initialTop = (viewportHeight - containerHeight) / 2;
+
+            // Calcule les limites min et max
+            const minX = -initialLeft + bodyPadding;
+            const maxX = viewportWidth - initialLeft - containerWidth - bodyPadding;
+            const minY = -initialTop + bodyPadding;
+            const maxY = viewportHeight - initialTop - containerHeight - bodyPadding;
+
+            // Applique les limites
+            currentX = Math.max(minX, Math.min(currentX, maxX));
+            currentY = Math.max(minY, Math.min(currentY, maxY));
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            setTranslate(currentX, currentY, container);
+        }
+    }
+
+    function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+        isDragging = false;
+        container.style.cursor = 'default';
+    }
+
+    function setTranslate(xPos, yPos, el) {
+        el.style.transform = `translate(${xPos}px, ${yPos}px)`;
+    }
+
     // Configuration du portfolio
     const config = {
         name: "Antoine Berteloot",
@@ -358,12 +540,12 @@ Suivez-moi pour voir mes derniers projets et articles !`;
 
         theme: function(terminal) {
             const themes = {
-                matrix: { bg: '#0c0c0c', fg: '#00ff00' },
-                hacker: { bg: '#000000', fg: '#00ff00' },
-                ocean: { bg: '#001f3f', fg: '#7fdbff' },
-                sunset: { bg: '#1a0a00', fg: '#ff6b35' },
-                purple: { bg: '#1a0033', fg: '#cc00ff' },
-                classic: { bg: '#000000', fg: '#ffffff' }
+                matrix: { bg: '#0c0c0c', fg: '#00ff00', border: '#00ff00' },
+                hacker: { bg: '#000000', fg: '#00ff00', border: '#00ff00' },
+                ocean: { bg: '#001f3f', fg: '#7fdbff', border: '#7fdbff' },
+                sunset: { bg: '#1a0a00', fg: '#ff6b35', border: '#ff6b35' },
+                purple: { bg: '#1a0033', fg: '#cc00ff', border: '#cc00ff' },
+                classic: { bg: '#000000', fg: '#ffffff', border: '#ffffff' }
             };
 
             const themeName = terminal.get_command().split(' ')[1];
@@ -383,6 +565,7 @@ Suivez-moi pour voir mes derniers projets et articles !`;
                 terminal.css('--background', theme.bg);
                 document.documentElement.style.setProperty('--terminal-bg', theme.bg);
                 document.documentElement.style.setProperty('--terminal-fg', theme.fg);
+                document.documentElement.style.setProperty('--terminal-border', theme.border);
                 return `Thème changé en: [[;${theme.fg};]${themeName}]`;
             } else {
                 return `[[;#ff4444;]Erreur:] Thème '${themeName}' non trouvé. Tapez 'theme' pour voir la liste.`;
@@ -446,11 +629,12 @@ Suivez-moi pour voir mes derniers projets et articles !`;
         completion: Object.keys(commands),
         onInit: function(term) {
             // Applique le thème classic
-            const classicTheme = { bg: '#000000', fg: '#ffffff' };
+            const classicTheme = { bg: '#000000', fg: '#ffffff', border: '#ffffff' };
             term.css('--color', classicTheme.fg);
             term.css('--background', classicTheme.bg);
             document.documentElement.style.setProperty('--terminal-bg', classicTheme.bg);
             document.documentElement.style.setProperty('--terminal-fg', classicTheme.fg);
+            document.documentElement.style.setProperty('--terminal-border', classicTheme.border);
 
             // Cache le prompt pendant l'initialisation
             term.set_prompt('');

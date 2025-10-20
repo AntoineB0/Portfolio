@@ -6,6 +6,7 @@
     --terminal-link: #00aaff;
     --terminal-error: #ff4444;
     --terminal-warning: #ffaa00;
+    --terminal-border: #ffffff;
 }
 
 /* Reset et styles de base */
@@ -18,24 +19,79 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--terminal-bg);
+    background: var(--terminal-bg);
     font-family: 'Courier New', monospace;
-    overflow: hidden;
-    height: 100vh;
+    overflow: auto;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+/* Canvas d'animation Perlin en pixel art */
+#perlin-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.08;
+    pointer-events: none;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
 }
 
 #terminal-container {
-    width: 100%;
-    height: 100vh;
-    padding: 0;
-    margin: 0;
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh;
+    min-height: 600px;
+    background: var(--terminal-bg);
+    border: 3px solid var(--terminal-border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(var(--terminal-border-rgb), 0.3);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Barre de titre du terminal pour le drag */
+#terminal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: transparent;
+    z-index: 10;
+    cursor: move;
+    user-select: none;
 }
 
 #terminal {
-    height: 100vh;
+    height: 100%;
     --color: var(--terminal-fg);
     --background: var(--terminal-bg);
     --link-color: var(--terminal-link);
+    padding: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 /* Personnalisation du terminal */
@@ -115,6 +171,11 @@ body {
     .terminal {
         --size: 0.9;
     }
+    
+    #terminal-container {
+        width: 95%;
+        height: 85vh;
+    }
 }
 
 @media (max-width: 480px) {
@@ -124,6 +185,15 @@ body {
     
     .ascii-art {
         font-size: 0.7em;
+    }
+    
+    #terminal-container {
+        width: 98%;
+        height: 90vh;
+    }
+    
+    body {
+        padding: 10px;
     }
 }
 
