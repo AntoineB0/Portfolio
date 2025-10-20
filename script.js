@@ -326,6 +326,7 @@ Tapez 'help' pour voir les commandes disponibles.
   [[;#00ff00;]cv]             Télécharge mon CV (PDF)
   [[;#00ff00;]social]         Liens vers mes réseaux sociaux
   [[;#00ff00;]theme]          Change le thème du terminal
+  [[;#00ff00;]restart]        Redémarre le terminal
   [[;#00ff00;]clear]          Efface l'écran
   [[;#00ff00;]help]           Affiche cette aide
   [[;#00ff00;]banner]         Affiche le banner de bienvenue
@@ -570,13 +571,76 @@ Suivez-moi pour voir mes derniers projets et articles !`;
             } else {
                 return `[[;#ff4444;]Erreur:] Thème '${themeName}' non trouvé. Tapez 'theme' pour voir la liste.`;
             }
+        },
+
+        restart: function(terminal) {
+            terminal.clear();
+            terminal.pause();
+            terminal.set_prompt('');
+            
+            const systemInfo = getSystemInfo();
+            
+            setTimeout(() => {
+                terminal.echo('[[;#888888;]C:\\Users\\visitor>] portfolio.exe');
+            }, 100);
+
+            setTimeout(() => {
+                terminal.echo(`[[;#00ff00;]User:] Visitor`);
+            }, 400);
+
+            setTimeout(() => {
+                terminal.echo(`[[;#00ff00;]IP:] ${userIP}`);
+            }, 700);
+
+            setTimeout(() => {
+                terminal.echo(`[[;#00ff00;]System:] ${systemInfo}`);
+            }, 1000);
+
+            setTimeout(() => {
+                terminal.echo('[[;#00ff00;]guest@portfolio.terminal:~$] welcome to my portfolio');
+            }, 1400);
+
+            setTimeout(() => {
+                terminal.echo('[[;#888888;]Press Enter...]');
+                
+                terminal.push(function(command) {
+                    terminal.pop();
+                    terminal.clear();
+                    terminal.echo(banner);
+                    terminal.echo('[[;#888888;]💡 Tapez \'help\' pour voir les commandes disponibles]');
+                    terminal.set_prompt('[[;#00ff00;]visitor@portfolio][[;#ffffff;]:~$] ');
+                }, {
+                    prompt: '',
+                    name: 'restart'
+                });
+                
+                // Réactive le terminal pour permettre l'entrée
+                terminal.resume();
+            }, 1700);
+            
+            return '';
         }
     };
 
-    // Fonction pour obtenir une fausse IP aléatoire
-    function getRandomIP() {
-        return `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+    // Variable globale pour stocker l'IP réelle
+    let userIP = 'Fetching...';
+
+    // Fonction pour récupérer la vraie IP de l'utilisateur
+    async function fetchRealIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            userIP = data.ip;
+            return data.ip;
+        } catch (error) {
+            console.error('Erreur lors de la récupération de l\'IP:', error);
+            userIP = 'Unknown';
+            return 'Unknown';
+        }
     }
+
+    // Récupère l'IP au chargement de la page
+    fetchRealIP();
 
     // Détecte l'OS pour l'affichage initial
     function getSystemInfo() {
@@ -614,6 +678,8 @@ Suivez-moi pour voir mes derniers projets et articles !`;
         if (commands[cmd]) {
             if (cmd === 'theme') {
                 term.echo(commands[cmd](term));
+            } else if (cmd === 'restart') {
+                commands[cmd](term);
             } else {
                 term.echo(commands[cmd]());
             }
@@ -642,9 +708,7 @@ Suivez-moi pour voir mes derniers projets et articles !`;
             // Désactive temporairement le terminal pendant l'animation
             term.pause();
 
-            const fakeIP = getRandomIP();
             const systemInfo = getSystemInfo();
-            let waitingForEnter = false;
             
             // Affiche la séquence de démarrage
             setTimeout(() => {
@@ -656,7 +720,7 @@ Suivez-moi pour voir mes derniers projets et articles !`;
             }, 400);
 
             setTimeout(() => {
-                term.echo(`[[;#00ff00;]IP:] ${fakeIP}`);
+                term.echo(`[[;#00ff00;]IP:] ${userIP}`);
             }, 700);
 
             setTimeout(() => {

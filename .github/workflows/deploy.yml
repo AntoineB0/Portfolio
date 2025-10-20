@@ -1,0 +1,50 @@
+name: Deploy Portfolio to GitHub Pages
+
+on:
+  # Se déclenche sur les push vers la branche main
+  push:
+    branches: [ main ]
+  
+  # Permet de déclencher manuellement depuis l'onglet Actions
+  workflow_dispatch:
+
+# Définit les permissions nécessaires pour déployer sur GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# N'autorise qu'un seul déploiement à la fois
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Job de build et déploiement
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Récupère le code du repository
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # 2. Configure GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      # 3. Upload les fichiers du site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload de tout le contenu du repository
+          path: '.'
+      
+      # 4. Déploie sur GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
