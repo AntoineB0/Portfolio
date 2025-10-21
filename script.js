@@ -597,7 +597,7 @@ Suivez-moi pour voir mes derniers projets et articles !`;
             }, 1000);
 
             setTimeout(() => {
-                terminal.echo('[[;#00ff00;]guest@portfolio.terminal:~$] welcome to my portfolio');
+                terminal.echo('[[;#00ff00;]guest@portfolio:~$] welcome to my portfolio');
             }, 1400);
 
             setTimeout(() => {
