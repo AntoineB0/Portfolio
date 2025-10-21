@@ -597,7 +597,7 @@ Suivez-moi pour voir mes derniers projets et articles !`;
             }, 1000);
 
             setTimeout(() => {
-                terminal.echo('[[;#00ff00;]guest@portfolio:~$] welcome to my portfolio');
+                terminal.echo('[[;#00ff00;]visitor@portfolio:~$] welcome to my portfolio');
             }, 1400);
 
             setTimeout(() => {
@@ -728,7 +728,7 @@ Suivez-moi pour voir mes derniers projets et articles !`;
             }, 1000);
 
             setTimeout(() => {
-                term.echo('[[;#00ff00;]guest@portfolio:~$] welcome to my portfolio');
+                term.echo('[[;#00ff00;]visitor@portfolio:~$] welcome to my portfolio');
             }, 1400);
 
             setTimeout(() => {
