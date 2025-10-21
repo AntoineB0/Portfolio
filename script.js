@@ -321,11 +321,11 @@ Tapez 'help' pour voir les commandes disponibles.
   [[;#00ff00;]projects]       Affiche mes projets
   [[;#00ff00;]experience]     Montre mon expérience professionnelle
   [[;#00ff00;]education]      Affiche ma formation
+  [[;#00ff00;]cv]             Télécharge mon CV 
   [[;#00ff00;]contact]        Informations de contact
-  [[;#00ff00;]fastfetch]      Affiche les informations système 
-  [[;#00ff00;]cv]             Télécharge mon CV (PDF)
   [[;#00ff00;]social]         Liens vers mes réseaux sociaux
   [[;#00ff00;]theme]          Change le thème du terminal
+  [[;#00ff00;]fastfetch]      Affiche les informations système 
   [[;#00ff00;]restart]        Redémarre le terminal
   [[;#00ff00;]clear]          Efface l'écran
   [[;#00ff00;]help]           Affiche cette aide
@@ -408,12 +408,43 @@ N'hésitez pas à me contacter pour toute opportunité ou collaboration !`;
         },
 
         cv: function() {
-            return `[[;#ffaa00;]Téléchargement du CV...]
-
-Pour ajouter votre CV, placez un fichier 'cv.pdf' dans le dossier du projet.
-Vous pouvez ensuite créer un lien de téléchargement.
-
-[[;#888888;]Astuce: Créez votre CV et ajoutez-le au projet !]`;
+            return `
+[[b;#ffaa00;]╔════════════════════════════════════════════════════════════════════════════════════════════════╗]
+[[b;#ffaa00;]║][[b;#ffffff;] Antoine Berteloot]
+[[b;#ffaa00;]╟────────────────────────────────────────────────────────────────────────────────────────────────╢]
+[[b;#ffaa00;]║][[;#cccccc;] 90 route des lieux dits, Chateaux l’éveque ][[;#ffaa00;]|][[;#cccccc;] antoine.berteloot@etu.unilim.fr][[;#ffaa00;]|][[;#cccccc;] 06 59 33 58 98]
+[[b;#ffaa00;]║][[;#cccccc;] [[!;;;;https://github.com/AntoineB0]github.com/AntoineB0] ][[;#ffaa00;]|][[;#cccccc;] [[!;;;;https://www.linkedin.com/in/antoine-berteloot/]linkedin.com/in/antoine-berteloot]
+[[b;#ffaa00;]╟────────────────────────────────────────────────────────────────────────────────────────────────╢]
+[[b;#ffaa00;]║][[b;#ffaa00;] FORMATIONS]
+[[b;#ffaa00;]║][[b;#00aaff;] Bachelor Universitaire de Technologie Informatique][[;#cccccc;] | Limoges, France | 2023-2026]
+[[b;#ffaa00;]║][[;#cccccc;]  – Java, Kotlin, Python, C++, JS, PHP, HTML, CSS, JavaScript]
+[[b;#ffaa00;]║][[;#cccccc;]  – Gestion de projets : AGILE, SCRUM]
+[[b;#ffaa00;]║][[;#cccccc;]  – Analyse des besoins, conception d’applications]
+[[b;#ffaa00;]║][[;#cccccc;]  – Projets collaboratifs, communication technique]
+[[b;#ffaa00;]║][[b;#00aaff;] Diplôme Universitaire : Diplôme Etudiant Entrepreneur][[;#cccccc;] | Limoges, France | 2023-2024]
+[[b;#ffaa00;]║][[;#cccccc;]  – Création et gestion d'entreprise, business plan]
+[[b;#ffaa00;]║][[;#cccccc;]  – Gestion financière, marketing digital]
+[[b;#ffaa00;]║][[;#cccccc;]  – Innovation, gestion des risques, leadership]
+[[b;#ffaa00;]║][[b;#00aaff;] Baccalauréat Général - Maths, NSI][[;#cccccc;] | Limoges, France | 2020-2023]
+[[b;#ffaa00;]╟────────────────────────────────────────────────────────────────────────────────────────────────╢]
+[[b;#ffaa00;]║][[b;#ffaa00;] EXPÉRIENCE PROFESSIONNELLE]
+[[b;#ffaa00;]║][[b;#00aaff;] Lacaux Frères][[;#cccccc;] | Limoges, France | 2025-2026 (alternance)]
+[[b;#ffaa00;]║][[;#cccccc;]  – Développement back-end]
+[[b;#ffaa00;]║][[b;#00aaff;] Laboratoire de recherche XLIM][[;#cccccc;] | Limoges, France | 12 semaines (stage)]
+[[b;#ffaa00;]║][[;#cccccc;]  – Développement d'un code open source pour l’analyse de la forge GitLab]
+[[b;#ffaa00;]║][[;#cccccc;]  – Python, JavaScript, Chart.js, GitLab]
+[[b;#ffaa00;]╟────────────────────────────────────────────────────────────────────────────────────────────────╢]
+[[b;#ffaa00;]║][[b;#ffaa00;] PROJET ACADEMIQUE]
+[[b;#ffaa00;]║][[;#cccccc;]  – Application d’atelier POC (Legrand): JS, VueJS, Node.js, SQL Server, Figma, AGILE]
+[[b;#ffaa00;]║][[;#cccccc;]  – Jeu de Scrabble en Java, JavaFX]
+[[b;#ffaa00;]║][[;#cccccc;]  – Simulation réseau CHU, configuration pare-feu]
+[[b;#ffaa00;]╟────────────────────────────────────────────────────────────────────────────────────────────────╢]
+[[b;#ffaa00;]║][[b;#ffaa00;] COMPÉTENCES ET INTÉRÊTS]
+[[b;#ffaa00;]║][[b;#00aaff;] Passions:][[;#cccccc;] Automobile (sportif/mécanique), horlogerie, randonnée]
+[[b;#ffaa00;]║][[b;#00aaff;] Langues:][[;#cccccc;] Français (natif), Anglais (B2/C1), Espagnol (A2), Norvégien (A1)]
+[[b;#ffaa00;]║][[b;#00aaff;] Soft skills:][[;#cccccc;] Créativité, résilience, initiative, collaboration, adaptabilité]
+[[b;#ffaa00;]╚════════════════════════════════════════════════════════════════════════════════════════════════╝]
+`;
         },
 
         social: function() {
