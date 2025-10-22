@@ -19,6 +19,7 @@ Ce portfolio présente mes compétences, projets et expériences professionnelle
 | `contact` | Informations de contact |
 | `social` | Liens vers mes réseaux sociaux |
 | `fastfetch` | Affiche les informations système |
+| `life` | Jeu de la Vie de Conway  |
 | `theme <nom>` | Change le thème du terminal |
 | `restart` | Redémarre le terminal |
 | `banner` | Affiche le banner de bienvenue |
