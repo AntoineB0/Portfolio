@@ -45,6 +45,9 @@
 
   /* Divers */
   --transition: 0.25s ease;
+
+  /* Texture papier recyclé (grain SVG superposé sur le crème) */
+  --paper-opacity: 0.09;
 }
 
 /* Mode sombre auto désactivé le temps de tester la palette crème/vert.
@@ -62,6 +65,19 @@ body {
   font-family: var(--font-sans);
   font-size: var(--fs-body);
   font-feature-settings: "cv05", "ss01";
+}
+
+/* Grain « papier recyclé » : filtre SVG fractalNoise en data-URI, superposé
+   sur le fond crème, derrière le contenu. Aucune image, ~0 Ko. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--paper-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
 }
 
 ::selection {
