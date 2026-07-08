@@ -7,12 +7,14 @@
    1. Tokens de design (variables) — cf. research-swiss-design.md §5 & §6
    -------------------------------------------------------------------------- */
 :root {
-  /* Couleurs — noir / blanc + un accent (rouge suisse) */
-  --bg: #f4f4f2;          /* fond off-white */
-  --fg: #111111;          /* encre / texte */
-  --accent: #e3000f;      /* rouge suisse — signal, jamais décoratif */
-  --muted: #6b6b6b;       /* texte secondaire, légendes */
-  --line: #d6d6d6;        /* bordures, lignes de grille */
+  /* Couleurs — crème / encre + accent (système à deux tons) */
+  --bg: #f4efe3;          /* fond crème / papier */
+  --fg: #1c1a15;          /* encre / texte (near-black chaud) */
+  --accent: #003b2f;      /* vert profond — accent LISIBLE (texte, liens, dates) */
+  --highlight: #01ff8d;   /* vert de marque — REMPLISSAGE uniquement (texte foncé par-dessus) */
+  --highlight-ink: #04231a; /* texte à poser sur le highlight */
+  --muted: #6b665a;       /* texte secondaire, légendes (taupe chaud) */
+  --line: #d8d2c3;        /* bordures, lignes de grille */
 
   /* Typographie */
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -45,14 +47,11 @@
   --transition: 0.25s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0a0a0a;
-    --fg: #ededed;
-    --muted: #9a9a9a;
-    --line: #2a2a2a;
-  }
-}
+/* Mode sombre auto désactivé le temps de tester la palette crème/vert.
+   Variante sombre verte à réactiver ultérieurement si souhaité :
+   @media (prefers-color-scheme: dark) {
+     :root { --bg: #002a21; --fg: #f4efe3; --muted: #9db3ab; --line: #0f4438; }
+   } */
 
 /* --------------------------------------------------------------------------
    2. Base
@@ -66,8 +65,8 @@ body {
 }
 
 ::selection {
-  background: var(--accent);
-  color: #fff;
+  background: var(--highlight);
+  color: var(--highlight-ink);
 }
 
 a {
@@ -76,6 +75,15 @@ a {
 
 a:hover {
   color: var(--accent);
+}
+
+/* Survol « marqueur » (highlight de marque) sur les liens interactifs */
+.nav-list a:hover,
+.hero-meta a:hover,
+.project-link a:hover,
+.contact-links a:hover {
+  color: var(--highlight-ink);
+  box-shadow: inset 0 -0.5em 0 var(--highlight);
 }
 
 :focus-visible {
@@ -193,7 +201,7 @@ h4 { font-size: var(--fs-h4); letter-spacing: -0.01em; }
 }
 
 .brand .brand-mark {
-  color: var(--accent);
+  color: var(--highlight);
 }
 
 .nav-list {
@@ -302,11 +310,16 @@ h4 { font-size: var(--fs-h4); letter-spacing: -0.01em; }
 }
 
 .hero-role {
-  margin-top: var(--sp-2);
+  display: inline-block;
+  margin-top: var(--sp-3);
+  padding: 0.35em 0.6em;
+  background: var(--highlight);
+  color: var(--highlight-ink);
   font-family: var(--font-mono);
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--muted);
+  font-size: var(--fs-small);
 }
 
 /* --------------------------------------------------------------------------
