@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- TODO : personnaliser titre / description / nom de domaine -->
+  <title>Antoine B. — Portfolio</title>
+  <meta name="description" content="Portfolio personnel — développeur / designer. Design inspiré du style typographique international (Swiss Design)." />
+  <meta name="author" content="Antoine B." />
+
+  <!-- Open Graph (aperçu réseaux sociaux) -->
+  <meta property="og:title" content="Antoine B. — Portfolio" />
+  <meta property="og:description" content="Portfolio personnel — développeur / designer." />
+  <meta property="og:type" content="website" />
+
+  <!-- Préconnexion + polices Google (Inter, Space Grotesk, IBM Plex Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+
+  <!-- ====================================================================
+       HEADER / NAVIGATION
+       ==================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="#top" class="brand">Antoine&nbsp;B.<span class="brand-mark">.</span></a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+        <span class="nav-toggle-label">Menu</span>
+      </button>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Navigation principale">
+        <ul class="nav-list" role="list">
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#projects">Projets</a></li>
+          <li><a href="#skills">Compétences</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ==================================================================
+         HERO
+         ================================================================== -->
+    <section class="hero" id="top">
+      <div class="container">
+        <div class="grid">
+          <div class="hero-headline reveal">
+            <p class="eyebrow"><span class="index-num">00</span> &nbsp;— Portfolio · 2026</p>
+            <h1 class="hero-title">
+              Antoine&nbsp;B.<br />
+              <span class="accent">Développeur</span> &amp; Designer
+            </h1>
+          </div>
+
+          <p class="hero-lead reveal">
+            Je conçois des interfaces claires et fonctionnelles, guidées par la
+            grille, la typographie et l'espace. Réduire au juste nécessaire pour
+            servir le contenu.
+          </p>
+
+          <div class="hero-meta reveal">
+            <p class="eyebrow">Basé en France</p>
+            <p class="eyebrow">Disponible pour projets</p>
+            <p class="eyebrow"><a href="#projects">Voir les projets ↓</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Les sections À propos / Projets / Compétences / Contact
+         seront ajoutées à l'étape suivante. -->
+
+  </main>
+
+  <!-- ====================================================================
+       FOOTER
+       ==================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="grid">
+        <div class="col-span-6">
+          <p class="index-num">Fin</p>
+          <p class="eyebrow">Antoine&nbsp;B. — Portfolio</p>
+        </div>
+        <div class="col-span-6 col-start-7">
+          <p class="eyebrow">&copy; <span id="year">2026</span> — Conçu selon le style typographique international.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
